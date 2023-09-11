@@ -42,29 +42,30 @@ const Todo = () => {
   const { todos }: any = useTodos();
   const [data, setData] = useState(todos);
   const [show, setShow] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const [section, setSection] = useState("");
-  const { handleAddSection } = useTodos();
+  const { handleAddSection, fetchLoading } = useTodos();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     handleAddSection(section);
     setSection("");
     setShow(false);
+
   };
 
   useEffect(() => {
-    setLoading(true);
     setData(todos);
-    setLoading(false);
+    setLoading(false)
   }, [todos]);
 
   return (
     <div className="flex justify-center items-center h-screen bg-slate-800 w-full">
-      <div className="bg-[#F4F4F4] shadow-lg  rounded-lg w-[400px] h-[600px]">
+      <div className="bg-[#F4F4F4] shadow-lg  rounded-lg w-[400px] h-[460px] mr-[1rem] ml-[1rem]">
         <div className="bg-black h-[14px] rounded-tl-none rounded-tr-none rounded-bl-[50%] rounded-br-[50%]"></div>
 
-        <div className="m-[2rem] bg-[#F4F4F4] h-[500px] overflow-y-auto ">
+        <div className="m-[2rem] bg-[#F4F4F4] h-[400px] overflow-y-auto ">
           <>
             {loading ? (
               <Box className="w-full mb-[10px]">
@@ -88,7 +89,7 @@ const Todo = () => {
 
           {!show && (
             <>
-              {loading ? (
+              {loading  ? (
                 <Box className="w-full mb-[10px]">
                   <Skeleton animation="wave" />
                 </Box>

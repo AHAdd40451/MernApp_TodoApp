@@ -20,6 +20,7 @@ export type todosContext = {
   handleAddSection: any;
   handleAddSubTaskTodo: (id: any, task: string, done: boolean) => void;
   handleSubTaskComplete: (status: boolean, id: any) => void;
+  fetchLoading: boolean;
 };
 
 export const todosContext = createContext<todosContext | null>(null);
@@ -27,10 +28,13 @@ export const todosContext = createContext<todosContext | null>(null);
 export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const [todos, setTodos] = useState<any>([]);
   const [date, setDate] = useState<any>([]);
+  const [fetchLoading, setFetchLoading] = useState(false);
+
   const [openModal, setOpenModal] = useState<any>(null);
   const BASE_URL = process.env.BASE_URL;
 
   const getTodo = async () => {
+    setFetchLoading(true)
     try {
       const response = await fetch(`api/todo`, {
         method: "GET",
@@ -43,6 +47,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.log(error, "ClientApierror");
     }
+    setFetchLoading(false)
   };
 
   useEffect(() => {
@@ -109,7 +114,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleSubTaskComplete = async (status: boolean, id: any) => {
-  
+
     try {
       const response = await fetch(`api/updateSubstask`, {
         method: "PUT",
@@ -205,6 +210,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
         handleUpdate,
         handleAddSubTaskTodo,
         handleSubTaskComplete,
+        fetchLoading
       }}
     >
       {children}

@@ -13,16 +13,25 @@ import { BiSolidEdit } from "react-icons/bi";
 import { LuDelete } from "react-icons/lu";
 import { GiConfirmed } from "react-icons/gi";
 import { TbSubtask } from "react-icons/tb";
+import { Skeleton } from "@mui/material";
 const Accordion: FC<any> = (props) => {
   const [data, setData] = useState(props.datas);
   const [show, setShow] = useState(false);
-  const [check, setCheck] = useState(false);
+  const [curDate, setCurDate] = useState(false);
   const [todo, setTodo] = useState("");
   const [updateInputShow, setUpdateInputShow] = useState("");
   const [updateTodo, setUpdateTodo] = useState("");
   const [subTaskShow, setSubTaskShow] = useState("");
   const [subTaskTodo, setSubTaskTodo] = useState("");
-  const [checkSubstask, setCheckSubstask] = useState(false);
+
+  const isSameAsCurrentDate = (inputDate: any) => {
+    const currentDate: any = new Date();
+    const inputDateObj: any = new Date(inputDate);
+    const isSameYear = currentDate.getFullYear() === inputDateObj.getFullYear();
+    const isSameMonth = currentDate.getMonth() === inputDateObj.getMonth();
+    const isSameDay = currentDate.getDate() === inputDateObj.getDate();
+    return isSameYear && isSameMonth && isSameDay;
+  };
 
   useEffect(() => {
     setData(props.datas);
@@ -43,14 +52,17 @@ const Accordion: FC<any> = (props) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     HandleCalendar(true);
+
   };
 
   useEffect(() => {
+
     if (openModal === false) {
       handleAddTodo(data.section, todo, false);
       setTodo("");
       setOpenModal(null);
     }
+
   }, [openModal]);
   const handleTaskComlete = (id: any, status: boolean) => {
     handleTaskComplete(status, id);
@@ -58,10 +70,6 @@ const Accordion: FC<any> = (props) => {
   const handleToggleActive = () => {
     setShow(!show);
   };
-  const handleToggleCheck = () => {
-    setCheck(!check);
-  };
-
   const handleDeleteTodo = (id: any) => {
     handleDelete(id);
   };
@@ -81,7 +89,7 @@ const Accordion: FC<any> = (props) => {
   };
 
   const handleAddSubsTaskSubmit = (id: any) => {
-    handleAddSubTaskTodo(id, subTaskTodo, false);
+    handleAddSubTaskTodo(id, subTaskTodo, false)
     setSubTaskShow("");
     setSubTaskTodo("");
   };
@@ -98,11 +106,13 @@ const Accordion: FC<any> = (props) => {
     return daysDifference;
   };
 
+
+
+
   return (
     <div
-      className={`w-full  pl-0  bg-[#F4F4F4]  rounded-md mb-5 duration-500 group ${
-        show ? "is-active " : ""
-      }`}
+      className={`w-full  pl-0  bg-[#F4F4F4]  rounded-md mb-5 duration-500 group ${show ? "is-active " : ""
+        }`}
     >
       <div className="flex items-center mb-[12px]">
         <span className="mr-[10px]">
@@ -120,7 +130,7 @@ const Accordion: FC<any> = (props) => {
             type="text"
             name=""
             id=""
-            value={data?.todos?.length -1}
+            value={data?.todos?.length - 1}
             className="w-[19px] h-[19px] bg-[#413F3F] text-white rounded-[6px] text-center text-[11px] font-inter font-bold relative bottom-[3px]"
             readOnly
           />
@@ -156,23 +166,22 @@ const Accordion: FC<any> = (props) => {
                 {/* Tasks */}
 
                 <div
-                  className={`flex items-start  group relative ${
-                    todo?.subtasks?.length > 0 && "mb-[14px]"
-                  } `}
+                  className={`flex items-start  group relative ${todo?.subtasks?.length > 0 && "mb-[14px]"
+                    } `}
                   key={todo?.id}
                 >
                   {todo?.done ? (
                     <BiSolidCheckboxChecked
                       onClick={() => handleTaskComlete(todo.id, false)}
                       className={
-                        "cursor-pointer text-[#B5B5BA] w-[30px] h-[45px] p-0 relative right-1 rounded-2"
+                        `cursor-pointer text-[#B5B5BA] w-[30px] h-[45px] p-0 relative right-1 rounded-2`
                       }
                     />
                   ) : (
                     <BiCheckbox
                       onClick={() => handleTaskComlete(todo.id, true)}
                       className={
-                        "cursor-pointer text-[#B5B5BA] w-[30px] h-[45px] relative right-1 rounded-2"
+                        `cursor-pointer  w-[30px] h-[45px] relative right-1 rounded-2 ${isSameAsCurrentDate(todo?.date) == true ? "text-[#FF4545]" : "text-[#B5B5BA]"}`
                       }
                     />
                   )}
@@ -196,11 +205,11 @@ const Accordion: FC<any> = (props) => {
                       </form>
                     ) : (
                       <span
-                        className={`mr-[6px] font-inter font-normal text-base leading-[18.11px] mt-[5px] ${
-                          todo?.done && "line-through text-[#B5B5BA]"
-                        }`}
+                        className={`mr-[6px] font-inter font-normal text-base leading-[18.11px] mt-[5px] ${todo?.done && "line-through text-[#B5B5BA]"
+                          }`}
                       >
                         {todo?.task}
+
                       </span>
                     )}
 
@@ -208,8 +217,8 @@ const Accordion: FC<any> = (props) => {
                       <div className="flex relative top-[7px]  gap-[3px] pb-[11px] items-center  ">
                         <AiOutlineCalendar className="text-[#776EC9]" />
                         <span className="font-inter font-semibold text-[11px] relative top-[1px]  text-[#776EC9]">
-                          Due in {calculateDueTime(todo?.date)}{" "}
-                          {calculateDueTime(todo?.date) === 1 ? "day" : "days"}
+                          Due  {calculateDueTime(todo?.date) == 0 ? "Today" : " in " + calculateDueTime(todo?.date)}
+                          {calculateDueTime(todo?.date) >= 1 && " days"}
                         </span>
                       </div>
                     )}
@@ -236,9 +245,8 @@ const Accordion: FC<any> = (props) => {
                             />
                           )}
                           <span
-                            className={`mr-[6px] font-inter font-normal text-base leading-[18.11px] mt-[5px] ${
-                              todo?.done && "line-through text-[#B5B5BA]"
-                            }`}
+                            className={`mr-[6px] font-inter font-normal text-base leading-[18.11px] mt-[5px] ${todo?.done && "line-through text-[#B5B5BA]"
+                              }`}
                           >
                             {todo?.task}
                           </span>
