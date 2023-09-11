@@ -32,7 +32,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
 
   const getTodo = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/todo`, {
+      const response = await fetch(`api/todo`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     if (!task) return;
     try {
-      const response = await fetch(`${BASE_URL}/api/todo`, {
+      const response = await fetch(`api/todo`, {
         method: "POST",
         body: JSON.stringify({ task, done, section, date }),
         headers: {
@@ -74,7 +74,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const handleAddSection = async (section: string) => {
     if (!section) return;
     try {
-      const response = await fetch(`${BASE_URL}/api/section`, {
+      const response = await fetch(`api/section`, {
         method: "POST",
         body: JSON.stringify({ section }),
         headers: {
@@ -92,7 +92,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
 
   const handleTaskComplete = async (status: boolean, id: any) => {
     try {
-      const response = await fetch(`${BASE_URL}/api/todo`, {
+      const response = await fetch(`api/todo`, {
         method: "PUT",
         body: JSON.stringify({ status, id }),
         headers: {
@@ -111,7 +111,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const handleSubTaskComplete = async (status: boolean, id: any) => {
   
     try {
-      const response = await fetch(`${BASE_URL}/api/updateSubstask`, {
+      const response = await fetch(`api/updateSubstask`, {
         method: "PUT",
         body: JSON.stringify({ substaskId: id, status }),
         headers: {
@@ -130,7 +130,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const handleUpdate = async (task: string, id: any) => {
     if (task === "") return;
     try {
-      const response = await fetch(`${BASE_URL}/api/todo`, {
+      const response = await fetch(`api/todo`, {
         method: "PUT",
         body: JSON.stringify({ task, id }),
         headers: {
@@ -147,7 +147,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
 
   const handleDelete = async (id: any) => {
     try {
-      const response = await fetch(`${BASE_URL}/api/todo`, {
+      const response = await fetch(`api/todo`, {
         method: "DELETE",
         body: JSON.stringify({ id }),
         headers: {
@@ -174,7 +174,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const handleAddSubTaskTodo = async (id: any, task: string, done: boolean) => {
     if (!task) return;
     try {
-      const response = await fetch(`${BASE_URL}/api/updateSubstask`, {
+      const response = await fetch(`api/updateSubstask`, {
         method: "PUT",
         body: JSON.stringify({ id, task, done, date }),
         headers: {
