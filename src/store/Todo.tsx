@@ -28,29 +28,11 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const [todos, setTodos] = useState<any>([]);
   const [date, setDate] = useState<any>([]);
   const [openModal, setOpenModal] = useState<any>(null);
-
-  // const handleAddTodo = (task: string) => {
-  //   setTodos((prev: any) => {
-  //     const newTodos: any = [
-  //       {
-  //         id: Math.random().toString(),
-  //         task,
-  //         done: true,
-  //         subtasks: [
-  //           { id: 22, task: "Take notes", done: true },
-  //           { id: 23, task: "Summarize key points", done: false },
-  //         ],
-  //       },
-  //       ...prev,
-  //     ];
-
-  //     return newTodos;
-  //   });
-  // };
+  const BASE_URL = process.env.BASE_URL;
 
   const getTodo = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/todo", {
+      const response = await fetch(`${BASE_URL}/api/todo`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +56,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     if (!task) return;
     try {
-      const response = await fetch("http://localhost:3000/api/todo", {
+      const response = await fetch(`${BASE_URL}/api/todo`, {
         method: "POST",
         body: JSON.stringify({ task, done, section, date }),
         headers: {
@@ -92,7 +74,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const handleAddSection = async (section: string) => {
     if (!section) return;
     try {
-      const response = await fetch("http://localhost:3000/api/section", {
+      const response = await fetch(`${BASE_URL}/api/section`, {
         method: "POST",
         body: JSON.stringify({ section }),
         headers: {
@@ -110,7 +92,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
 
   const handleTaskComplete = async (status: boolean, id: any) => {
     try {
-      const response = await fetch("http://localhost:3000/api/todo", {
+      const response = await fetch(`${BASE_URL}/api/todo`, {
         method: "PUT",
         body: JSON.stringify({ status, id }),
         headers: {
@@ -129,7 +111,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const handleSubTaskComplete = async (status: boolean, id: any) => {
   
     try {
-      const response = await fetch("http://localhost:3000/api/updateSubstask", {
+      const response = await fetch(`${BASE_URL}/api/updateSubstask`, {
         method: "PUT",
         body: JSON.stringify({ substaskId: id, status }),
         headers: {
@@ -148,7 +130,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const handleUpdate = async (task: string, id: any) => {
     if (task === "") return;
     try {
-      const response = await fetch("http://localhost:3000/api/todo", {
+      const response = await fetch(`${BASE_URL}/api/todo`, {
         method: "PUT",
         body: JSON.stringify({ task, id }),
         headers: {
@@ -165,7 +147,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
 
   const handleDelete = async (id: any) => {
     try {
-      const response = await fetch("http://localhost:3000/api/todo", {
+      const response = await fetch(`${BASE_URL}/api/todo`, {
         method: "DELETE",
         body: JSON.stringify({ id }),
         headers: {
@@ -192,7 +174,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const handleAddSubTaskTodo = async (id: any, task: string, done: boolean) => {
     if (!task) return;
     try {
-      const response = await fetch("http://localhost:3000/api/updateSubstask", {
+      const response = await fetch(`${BASE_URL}/api/updateSubstask`, {
         method: "PUT",
         body: JSON.stringify({ id, task, done, date }),
         headers: {
