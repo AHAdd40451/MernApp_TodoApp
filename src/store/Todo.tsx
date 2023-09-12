@@ -113,24 +113,6 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const handleSubTaskComplete = async (status: boolean, id: any) => {
-
-    try {
-      const response = await fetch(`api/updateSubstask`, {
-        method: "PUT",
-        body: JSON.stringify({ substaskId: id, status }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const result = await response.json();
-      getTodo();
-
-      console.log(result, "result");
-    } catch (error) {
-      console.log(error, "ClientApierror");
-    }
-  };
 
   const handleUpdate = async (task: string, id: any) => {
     if (task === "") return;
@@ -179,9 +161,28 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const handleAddSubTaskTodo = async (id: any, task: string, done: boolean) => {
     if (!task) return;
     try {
-      const response = await fetch(`api/updateSubstask`, {
+      const response = await fetch(`api/substasks`, {
         method: "PUT",
         body: JSON.stringify({ id, task, done, date }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const result = await response.json();
+      getTodo();
+
+      console.log(result, "result");
+    } catch (error) {
+      console.log(error, "ClientApierror");
+    }
+  };
+  
+  const handleSubTaskComplete = async (status: boolean, id: any) => {
+
+    try {
+      const response = await fetch(`api/substasks`, {
+        method: "PUT",
+        body: JSON.stringify({ substaskId: id, status }),
         headers: {
           "Content-Type": "application/json",
         },

@@ -13,7 +13,7 @@ import { BiSolidEdit } from "react-icons/bi";
 import { LuDelete } from "react-icons/lu";
 import { GiConfirmed } from "react-icons/gi";
 import { TbSubtask } from "react-icons/tb";
-import { Skeleton } from "@mui/material";
+
 const Accordion: FC<any> = (props) => {
   const [data, setData] = useState(props.datas);
   const [show, setShow] = useState(false);
@@ -24,14 +24,6 @@ const Accordion: FC<any> = (props) => {
   const [subTaskShow, setSubTaskShow] = useState("");
   const [subTaskTodo, setSubTaskTodo] = useState("");
 
-  const isSameAsCurrentDate = (inputDate: any) => {
-    const currentDate: any = new Date();
-    const inputDateObj: any = new Date(inputDate);
-    const isSameYear = currentDate.getFullYear() === inputDateObj.getFullYear();
-    const isSameMonth = currentDate.getMonth() === inputDateObj.getMonth();
-    const isSameDay = currentDate.getDate() === inputDateObj.getDate();
-    return isSameYear && isSameMonth && isSameDay;
-  };
 
   useEffect(() => {
     setData(props.datas);
@@ -106,6 +98,14 @@ const Accordion: FC<any> = (props) => {
     return daysDifference;
   };
 
+  const isSameAsCurrentDate = (inputDate: any) => {
+    const currentDate: any = new Date();
+    const inputDateObj: any = new Date(inputDate);
+    const isSameYear = currentDate.getFullYear() === inputDateObj.getFullYear();
+    const isSameMonth = currentDate.getMonth() === inputDateObj.getMonth();
+    const isSameDay = currentDate.getDate() === inputDateObj.getDate();
+    return isSameYear && isSameMonth && isSameDay;
+  };
 
 
 
@@ -166,7 +166,7 @@ const Accordion: FC<any> = (props) => {
                 {/* Tasks */}
 
                 <div
-                  className={`flex items-start  group relative ${todo?.subtasks?.length > 0 && "mb-[14px]"
+                  className={`flex  group relative ${todo?.subtasks?.length > 0 && "mb-[14px]"
                     } `}
                   key={todo?.id}
                 >
@@ -176,6 +176,8 @@ const Accordion: FC<any> = (props) => {
                       className={
                         `cursor-pointer text-[#B5B5BA] w-[30px] h-[45px] p-0 relative right-1 rounded-2`
                       }
+                      style={{ flex: "none" }}
+
                     />
                   ) : (
                     <BiCheckbox
@@ -186,7 +188,7 @@ const Accordion: FC<any> = (props) => {
                     />
                   )}
 
-                  <div className="flex flex-col relative top-[10px]">
+                  <div className="flex-grow relative top-[10px] width-[236px]">
                     {updateInputShow === todo.id ? (
                       <form
                         onSubmit={(e) => {
@@ -205,7 +207,7 @@ const Accordion: FC<any> = (props) => {
                       </form>
                     ) : (
                       <span
-                        className={`mr-[6px] font-inter font-normal text-base leading-[18.11px] mt-[5px] ${todo?.done && "line-through text-[#B5B5BA]"
+                        className={` font-inter text-[13.5px]  leading-[18.11px] mt-[5px] ${todo?.done && "line-through text-[#B5B5BA]"
                           }`}
                       >
                         {todo?.task}
@@ -233,19 +235,19 @@ const Accordion: FC<any> = (props) => {
                             <BiSolidCheckboxChecked
                               onClick={() => handleSubTaskDone(false, todo._id)}
                               className={
-                                "cursor-pointer text-[#B5B5BA] w-[30px] h-[30px] rounded-2"
+                                "cursor-pointer text-[#B5B5BA] w-[30px] h-[30px] rounded-2 "
                               }
                             />
                           ) : (
                             <BiCheckbox
                               onClick={() => handleSubTaskDone(true, todo._id)}
                               className={
-                                "cursor-pointer text-[#B5B5BA] w-[30px] h-[30px] rounded-2"
+                                "cursor-pointer text-[#B5B5BA] w-[30px] h-[30px] rounded-2 "
                               }
                             />
                           )}
                           <span
-                            className={`mr-[6px] font-inter font-normal text-base leading-[18.11px] mt-[5px] ${todo?.done && "line-through text-[#B5B5BA]"
+                            className={`mr-[6px] font-inter text-[13.5px] leading-[18.11px] mt-[5px] ${todo?.done && "line-through text-[#B5B5BA]"
                               }`}
                           >
                             {todo?.task}
@@ -279,7 +281,7 @@ const Accordion: FC<any> = (props) => {
                     )}
                   </div>
 
-                  <div className="ml-auto relative top-[14px] flex gap-[8px] mr-[3px]">
+                  <div className=" ml-auto relative top-[14px] flex gap-[8px] mr-[3px]">
                     {updateInputShow === todo.id ? (
                       <>
                         <LuDelete
